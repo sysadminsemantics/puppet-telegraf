@@ -26,7 +26,7 @@
 # OUTPUTS:
 #
 <%   @outputs.sort.each do | output, options | -%>
-[[outputs.<%= output.gsub(/\D/, '')%>]]
+[[outputs.<%= output[0...-2]%>]]
 <%      unless options == nil -%>
 <%          options.sort.each do | option, value | -%>
   <%= option -%> = <% if value.is_a?(String) %>"<%= value %>"<% elsif value.is_a?(Array) %><%= value.inspect %><% else %><%= value %><% end %>
