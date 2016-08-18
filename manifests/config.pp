@@ -16,4 +16,11 @@ class telegraf::config inherits telegraf {
     require => Class['::telegraf::install'],
   }
 
+  file { '/etc/telegraf/telegraf.d/':
+    ensure  => directory,
+    mode    => '0775',
+    owner   => 'telegraf',
+    group   => 'telegraf',
+    require =>  Class['::telegraf::install'],
+  }
 }
