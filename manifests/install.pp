@@ -40,6 +40,10 @@ class telegraf::install {
     }
   }
 
-  ensure_packages(['telegraf', 'incron'], { ensure => $::telegraf::ensure })
+  ensure_packages(['telegraf'], { ensure => $::telegraf::ensure })
+
+  package { 'incron':
+    ensure  => 'installed'
+  }
 
 }
