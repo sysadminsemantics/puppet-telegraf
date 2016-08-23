@@ -1,1 +1,1 @@
-/etc/telegraf/telegraf.d IN_CREATE /etc/init.d/telegraf reload
+/etc/telegraf/telegraf.d IN_CREATE /usr/sbin/service reload
