@@ -16,6 +16,7 @@ class telegraf::params {
   $flush_jitter           = '0s'
   $debug                  = false
   $quiet                  = false
+  $logfile                = '/var/log/telegraf/telegraf.log'
   $global_tags            = {}
   $manage_service         = true
   $manage_repo            = true

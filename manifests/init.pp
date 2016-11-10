@@ -42,6 +42,9 @@
 # [*quiet*]
 #   Boolean.  Run telegraf in quiet mode.
 #
+# [*logfile*]
+#   String.  Specify logfile location (to override systemd journald)
+#
 # [*outputs*]
 #   Hash. Specify output plugins and their options.
 #
@@ -70,6 +73,7 @@ class telegraf (
   $flush_jitter           = $telegraf::params::flush_jitter,
   $debug                  = $telegraf::params::debug,
   $quiet                  = $telegraf::params::quiet,
+  $logfile                = $telegraf::params::logfile,
   $inputs                 = $telegraf::params::inputs,
   $outputs                = $telegraf::params::outputs,
   $global_tags            = $telegraf::params::global_tags,
