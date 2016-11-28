@@ -24,13 +24,4 @@ class telegraf::config inherits telegraf {
     require =>  Class['::telegraf::install'],
   }
 
-  file { '/etc/incron.d/telegraf.cron':
-    ensure  => present,
-    content => file('telegraf/telegraf.cron'),
-    mode    => '0644',
-    owner   => 'telegraf',
-    group   => 'telegraf',
-    require => Class['::telegraf::install'],
-  }
-
 }
