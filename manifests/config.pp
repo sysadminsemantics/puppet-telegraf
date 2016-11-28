@@ -24,4 +24,20 @@ class telegraf::config inherits telegraf {
     require =>  Class['::telegraf::install'],
   }
 
+  # Temporary (tm) fix to potential massive growth of log files. Overwrite debian package's default logrotate conf and hack it to force hourly run
+  file {
+  '/etc/logrotate.d/telegraf':
+    ensure  => present,
+    content => template('telegraf/logrotate.conf.erb'),
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root';
+  '/etc/cron.hourly/telegraf':
+    ensure  => present,
+    content => template('telegraf/cron.hourly.erb'),
+    mode    => '0755',
+    owner   => 'root',
+    group   => 'root';
+  }
+
 }
