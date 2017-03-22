@@ -101,10 +101,12 @@ class telegraf (
   validate_bool($manage_repo)
 
   contain ::telegraf::install
+  contain ::telegraf::user
   contain ::telegraf::config
   contain ::telegraf::service
 
   Class['::telegraf::install'] ->
+  Class['::telegraf::user'] ->
   Class['::telegraf::config'] ->
   Class['::telegraf::service']
 }
