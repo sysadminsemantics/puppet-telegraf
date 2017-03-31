@@ -43,7 +43,8 @@ class telegraf::config inherits telegraf {
     ensure  => present,
     mode    => '0755',
     owner   => 'telegraf',
-    group   => 'telegraf';
+    group   => 'telegraf',
+    notify  => Service['telegraf'];
   }
 
 }
