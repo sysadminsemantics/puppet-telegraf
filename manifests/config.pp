@@ -38,6 +38,13 @@ class telegraf::config inherits telegraf {
     mode    => '0755',
     owner   => 'root',
     group   => 'root';
+  # Ownership for newer telegraf installations incorrect, therefore it is unable to write logs, this ensures correct permissions
+  '/var/log/telegraf':
+    ensure  => present,
+    mode    => '0755',
+    owner   => 'telegraf',
+    group   => 'telegraf',
+    notify  => Service['telegraf'];
   }
 
 }
