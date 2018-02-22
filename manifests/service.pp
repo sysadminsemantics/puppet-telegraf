@@ -32,7 +32,7 @@ class telegraf::service {
       if "" != $tcp or "" != $udp {
         Package['lsof'] ->
         cron { 'ensure telegraf is listening on local ports':
-          command => "${lsof} ${tcp} ${udp} || ${restart} 1>/dev/null 2>/dev/null"
+          command => "bash -c '${lsof} ${tcp} ${udp} || ${restart}' >/dev/null 2>&1"
         }
       }
     }
