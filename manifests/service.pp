@@ -17,23 +17,22 @@ class telegraf::service {
 
     if has_key( $::telegraf::inputs, 'tcp_listener') or has_key( $::telegraf::inputs, 'udp_listener') {
       # setup cronjob to check if ports are open and restart telegraf if not
-      $lsof = "/usr/bin/lsof -n -P"
       if has_key( $::telegraf::inputs, 'tcp_listener') and has_key( $::telegraf::inputs[tcp_listener], 'service_address') {
-        $tcp = "-i TCP@${::telegraf::inputs[tcp_listener][service_address]}"
+        $tcp_port = split( $telegraf_inputs[tcp_listener][service_address], ':')[1]
+        $tcp = "/bin/fuser -s -4 -n tcp ${tcp_port}"
       } else {
-        $tcp = ""
+        $tcp = "/bin/true"
       }
-      if has_key( $::telegraf::inputs, 'udp_listener') and has_key( $::telegraf::inputs[udp_listener], 'service_address'){
-        $udp = "-i UDP@${::telegraf::inputs[udp_listener][service_address]}"
+      if has_key( $::telegraf::inputs, 'udp_listener') and has_key( $::telegraf::inputs[udp_listener], 'service_address') {
+        $udp_port = split( $telegraf_inputs[udp_listener][service_address], ':')[1]
+        $udp = "/bin/fuser -s -4 -n udp ${udp_port}"
       } else {
-        $udp = ""
+        $udp = "/bin/true"
       }
       $restart = "/usr/sbin/service telegraf restart"
-      if "" != $tcp or "" != $udp {
-        Package['lsof'] ->
-        cron { 'ensure telegraf is listening on local ports':
-          command => "bash -c '${lsof} ${tcp} ${udp} || ${restart}' >/dev/null 2>&1"
-        }
+      Package['psmisc'] ->
+      cron { 'ensure telegraf is listening on local ports':
+        command => "bash -c '( ${tcp} && ${udp} ) || ${restart}' >/dev/null 2>&1"
       }
     }
   }
